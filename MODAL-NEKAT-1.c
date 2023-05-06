@@ -10,11 +10,14 @@ typedef char string[100];
 
 void cekTanggal(int *cektgl, int dd, int mm, int yyyy);
 void tampilMenu();
+void kapasitasBaterai(int *Kapasitas, int *levelBaterai);
+void aktifkanMesin(int *pakaiMesin, int *levelBaterai, int kapasitas, int *useTime);
 
 int main(int argc, char const *argv[]) {
     // Deklarasi
-    int dd, mm, yyyy, cektgl=0, menu, cekMenu=0;
-    string user, pass, nama;
+    int dd, mm, yyyy, cektgl=0, menu, cekMenu=0, id=100;
+    string user, pass, nama, temp1, temp2;
+    int kapasitas, levelBaterai, pakaiMesin, useTime;
 
     // Kodingan
 	
@@ -27,8 +30,18 @@ int main(int argc, char const *argv[]) {
     do{
 
         system("cls");
-        if(cekMenu>=0){
+        if(cekMenu >= 0){
             printf("\n Tangggal: %.2d-%.2d-%.4d", dd, mm, yyyy);
+        }
+        
+        if (cekMenu >=2){
+            printf("\n Id     : %s_%d \n\n", nama, id++);
+        }
+
+        if (cekMenu >= 3){
+            printf(" Battery Level  : %d", levelBaterai);
+            printf("\n Max Bar   : %d", kapasitas);
+            printf("\n Used Time    : ");
         }
 
         tampilMenu();
@@ -36,54 +49,107 @@ int main(int argc, char const *argv[]) {
         switch (menu){
             case 1:// registrasi
 
-            if (cekMenu == 0) {
+                if (cekMenu == 0) {
 
                     puts("--=== REGISTRASI ===--");
-                do{  
-                    printf("Username:"); fflush(stdin); gets(user);
-                    if(strcmp(user,"-") == 0 || strlen(user) == 0){
-                        printf("[!] username tidak boleh kosong [!] \n\n");
-                    }
-                }while(strcmp(user,"-") == 0 || strlen(user) == 0);
+                    do{  
+                        printf(" Username:"); fflush(stdin); gets(user);
+                        if(strcmp(user,"-") == 0 || strlen(user) == 0){
+                            printf("[!] username tidak boleh kosong [!] \n\n");
+                        }
+                    }while(strcmp(user,"-") == 0 || strlen(user) == 0);
 
-                do{  
-                    printf("Password:"); fflush(stdin); gets(pass);
-                    if(strcmp(pass,"-") == 0 || strlen(pass) == 0){
-                        printf("[!] password tidak boleh kosong [!]");
-                    } else if (strcmp(user, pass) == 0){
-                        printf("[!] password tidak boleh sama dengan username [!] \n\n");
-                    } else {
-                    }
-                }while(strcmp(pass,"-") == 0 || strlen(pass) == 0 || strcmp(user, pass) == 0);
+                    do{  
+                        printf(" Password:"); fflush(stdin); gets(pass);
+                        if(strcmp(pass,"-") == 0 || strlen(pass) == 0){
+                            printf("[!] password tidak boleh kosong [!]");
+                        } else if (strcmp(user, pass) == 0){
+                            printf("[!] password tidak boleh sama dengan username [!] \n\n");
+                        } else {
+                        }
+                    }while(strcmp(pass,"-") == 0 || strlen(pass) == 0 || strcmp(user, pass) == 0);
 
-                do{  
-                    printf("Nama    :"); fflush(stdin); gets(nama);
-                    if(strcmp(nama,"-") == 0 || strlen(nama) == 0){
-                        printf("[!] nama tidak boleh kosong [!] \n\n");
-                    } 
-                }while(strcmp(nama,"-") == 0 || strlen(nama) == 0 );
+                    do{  
+                        printf(" Nama    :"); fflush(stdin); gets(nama);
+                        if(strcmp(nama,"-") == 0 || strlen(nama) == 0){
+                            printf("[!] nama tidak boleh kosong [!] \n\n");
+                        } 
+                    }while(strcmp(nama,"-") == 0 || strlen(nama) == 0 );
 
-                printf("[*] berhasil registrasi [*] \n\n");
-                cekMenu=1;
-            }
-            
-
+                    printf(" Id anda  : %s_%d \n\n", nama, id++);
+                    printf("[*] berhasil registrasi [*]");
+                    cekMenu=1;
+                } else {
+                    printf("[!] sudah registrasi [!] \n\n");
+                }
+                getch();
                 break;
             
             case 2:
-                /* code */
+                
+                if (cekMenu == 1) {
+
+                puts("--=== HALAMAN LOGIN ===--");
+                printf("Username:"); fflush(stdin); gets(temp1);
+                printf("Password:"); fflush(stdin); gets(temp2);
+                    if(strcmp(user, temp1) != 0 || strcmp(pass, temp2) != 0){
+                        printf("[!] username atau password salah [!] \n\n");
+                    } else {
+                        printf("[*] berhasil login [*] \n\n");
+                        cekMenu=2;
+                    }
+                } else if (cekMenu==0){
+                    printf("[!] belum registrasi [!] \n\n");
+                } else {
+                    printf("[!] sudah login [!] \n\n");
+                }
+
+                getch();
                 break;
 
             case 3:
-                /* code */
+                if (cekMenu == 2) {
+                    kapasitasBaterai(&kapasitas, &levelBaterai);
+                    cekMenu == 3;
+                } else if (cekMenu == 0){
+                    printf("[!] belum registrasi [!] \n\n");
+                } else if (cekMenu == 1){
+                    printf("[!] belum login [!] \n\n");
+                } else if (cekMenu == 3){
+                    printf ("[!] sudah inisiasi baterai [!]");
+                }
+            
                 break;
 
             case 4:
-                /* code */
+                if (cekMenu == 3) {
+
+                    aktifkanMesin(&pakaiMesin, &levelBaterai, kapasitas, &useTime);
+
+                } else if (cekMenu == 0){
+                    printf("[!] belum registrasi [!] \n\n");
+                } else if (cekMenu == 1){
+                    printf("[!] belum login [!] \n\n");
+                } else if (cekMenu == 2){
+                    printf("[!] belum inisiasi [!] \n\n");
+                } else {
+                    printf ("[!] sudah inisiasi baterai [!]");
+                }
+
+                
                 break; 
 
             case 5:
-                /* code */
+                if (cekMenu == 2) {
+                    kapasitasBaterai(&kapasitas, &levelBaterai);
+                    cekMenu == 3;
+                } else if (cekMenu == 0){
+                    printf("[!] belum registrasi [!] \n\n");
+                } else if (cekMenu == 1){
+                    printf("[!] belum login [!] \n\n");
+                } else if (cekMenu == 2){
+                    printf ("[!] Silahkan Inisialisasi Kapasitas Baterai Dahulu [!]");
+                }
                 break;  
 
             case 6:
@@ -101,7 +167,7 @@ int main(int argc, char const *argv[]) {
             default:
                 break;
         }
-    } while (cektgl == 0);
+    } while (menu != 0);
 
     return 0;
 }
@@ -142,3 +208,41 @@ void tampilMenu(){
     puts("[ESC] Keluar dari Program");
 }
 
+void kapasitasBaterai(int *kapasitas, int *levelBaterai){
+    printf("Input Kapasitas Baterai (1-30) : "); scanf("%d", &*kapasitas);
+
+    while(*kapasitas < 1 || *kapasitas > 30){
+        if(*kapasitas < 1){
+            printf("\n[!] Minimal Terdapat 1 Bar [!]\n");
+            printf("Input Kapasitas Baterai (1-30) : "); scanf("%d", &*kapasitas);
+        }else{
+            printf("\n[!] Maximal Terdapat 30 Bar [!]\n");
+            printf("Input Kapasitas Baterai (1-30) : "); scanf("%d", &*kapasitas);
+        }
+    }
+
+    srand(time(NULL));
+    *levelBaterai = rand() % (*kapasitas) + 1;
+
+    printf("\n[*] Level Baterai : %d", *levelBaterai);
+    printf("\n[*] Inisialisasi Kapasitas Berhasil [*]");
+    getch();
+}
+
+void aktifkanMesin(int *pakaiMesin, int *levelBaterai, int kapasitas, int *useTime){
+    int temp;
+    printf(" Masukan Banyak Waktu yang Mau dipakai:"); scanf("%d", temp);
+    *pakaiMesin = temp;
+    
+    if(*pakaiMesin <= *levelBaterai){
+        *levelBaterai = (*levelBaterai) - (*pakaiMesin);
+        *useTime = (*useTime) - (*pakaiMesin);
+        printf(" [*] Berhasil menyakan mesin dengan &d daya [*]", *pakaiMesin); 
+    } else if (*pakaiMesin >= *levelBaterai){
+        printf(" [!] WARNING, daya saat ini tidak mencukupi [!]");
+    } else if (*pakaiMesin <= 0 ){
+        printf(" [!] Waktu tidak boleh kurang dari sama dengan nol [!]");
+    } else {
+        printf(" [!] Inputan tidak valid [!]");
+    }
+}
